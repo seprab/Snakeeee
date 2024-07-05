@@ -24,6 +24,7 @@ public:
 
     OPTIONS Show();
     void RenderScoreboard();
+    void RenderUsernameScreen(std::string& username);
 
 private:
     TTF_Font *m_Font;

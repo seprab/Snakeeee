@@ -163,3 +163,58 @@ void Menu::LoadScores()
     scores.push_back("Player2 - 90");
     // etc.
 }
+
+void Menu::RenderUsernameScreen(std::string& username)
+{
+    std::string inputText = "Enter Name: ";
+    SDL_StartTextInput();
+    SDL_Event e;
+    bool enterPressed = false;
+
+    while (!enterPressed)
+    {
+        while (SDL_PollEvent(&e) != 0)
+        {
+            if (e.type == SDL_QUIT)
+            {
+                enterPressed = true;
+            }
+            else if (e.type == SDL_KEYDOWN)
+            {
+                if (e.key.keysym.sym == SDLK_RETURN)
+                {
+                    enterPressed = true;
+                }
+                else if (e.key.keysym.sym == SDLK_BACKSPACE && inputText.length() > 11)
+                {
+                    inputText.pop_back();
+                }
+            }
+            else if (e.type == SDL_TEXTINPUT)
+            {
+                inputText += e.text.text;
+            }
+        }
+
+        SDL_SetRenderDrawColor(m_Renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+        SDL_RenderClear(m_Renderer);
+
+        // Render the current input text
+        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(m_Font, inputText.c_str(), {255, 255, 255, 255});
+        SDL_Texture* message = SDL_CreateTextureFromSurface(m_Renderer, surfaceMessage);
+        SDL_Rect message_rect; // Set the position and size for your text
+        message_rect.x = 100;
+        message_rect.y = 100;
+        message_rect.w = surfaceMessage->w;
+        message_rect.h = surfaceMessage->h;
+
+        SDL_RenderCopy(m_Renderer, message, NULL, &message_rect);
+        SDL_RenderPresent(m_Renderer);
+
+        SDL_FreeSurface(surfaceMessage);
+        SDL_DestroyTexture(message);
+    }
+
+    SDL_StopTextInput();
+    username = inputText.substr(11); // Remove the prompt part from the input text
+}

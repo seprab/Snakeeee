@@ -17,6 +17,8 @@ int main()
 
     Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
     Menu menu {renderer.GetRenderer()};
+    std::string username;
+    menu.RenderUsernameScreen(username);
     bool running = true;
     while(running)
     {
