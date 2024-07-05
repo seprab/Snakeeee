@@ -1,34 +1,50 @@
-/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/sergio.prada/Projects/CppNDP-CapstoneProject -B /Users/sergio.prada/Projects/CppNDP-CapstoneProject/cmake-build-debug
+/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/sergio.prada/Projects/Snakeeee -B /Users/sergio.prada/Projects/Snakeeee/cmake-build-debug
 
--- CMAKE_BINARY_DIR: /Users/sergio.prada/Projects/CppNDP-CapstoneProject/cmake-build-debug
--- CMAKE_SOURCE_DIR: /Users/sergio.prada/Projects/CppNDP-CapstoneProject
+-- CMAKE_BINARY_DIR: /Users/sergio.prada/Projects/Snakeeee/cmake-build-debug
+-- CMAKE_SOURCE_DIR: /Users/sergio.prada/Projects/Snakeeee
 -- CMAKE_COMMAND: /Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake
 -- CMAKE_VERSION: 3.28.1
--- CMAKE_C_COMPILER: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
--- CMAKE_PROJECT_NAME: SDL2_Basic_Setup
--- CMAKE_FINDCMAKE: /Users/sergio.prada/Projects/CppNDP-CapstoneProject/CMAKE
+-- CMAKE_C_COMPILER: 
+-- CMAKE_PROJECT_NAME: 
+-- CMAKE_FINDCMAKE: /Users/sergio.prada/Projects/Snakeeee/CMAKE
+-- The C compiler identification is AppleClang 15.0.0.15000309
+-- The CXX compiler identification is AppleClang 15.0.0.15000309
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
 
 -- SOURCE entry point : src/main.cppsrc/menu.hsrc/menu.cppsrc/controller.hsrc/controller.cppsrc/game.hsrc/game.cppsrc/renderer.hsrc/renderer.cppsrc/snake.hsrc/snake.cppsrc/renderer.cpp
 
+-- Found SDL2: /opt/homebrew/lib/libSDL2main.a;/opt/homebrew/lib/libSDL2.dylib;-framework Cocoa  
 
 -- FINDING SDL2
 -- SDL2_FOUND: TRUE
 -- SDL2_INCLUDE_DIR:/opt/homebrew/include/SDL2
 -- SDL2_LIBRARY: /opt/homebrew/lib/libSDL2main.a/opt/homebrew/lib/libSDL2.dylib-framework Cocoa
+-- Found SDL2_IMAGE: /opt/homebrew/lib/libSDL2_image.dylib  
 
 -- FINDING SDL2_IMAGE
 -- SDL2_IMAGE_FOUND: TRUE
 -- SDL2_IMAGE_INCLUDE_DIR: /opt/homebrew/include/SDL2
 -- SDL2_IMAGE_LIBRARY: /opt/homebrew/lib/libSDL2_image.dylib
+-- Found SDL2TTF: /opt/homebrew/lib/libSDL2_ttf.dylib;/opt/homebrew/lib/libSDL2_ttf.dylib;-framework Cocoa  
 
 -- FINDING SDL2TTF
 -- SDL2TTF_FOUND: TRUE
 -- SDL2TTF_INCLUDE_DIR: /opt/homebrew/include/SDL2
 -- SDL2TTF_LIBRARY: /opt/homebrew/lib/libSDL2_ttf.dylib/opt/homebrew/lib/libSDL2_ttf.dylib-framework Cocoa
 
+-- Found SDL2Mixer: /opt/homebrew/lib/libSDL2_mixer.dylib  
 -- FINDING SDL2Mixer
 -- SDL2Mixer_FOUND: TRUE
 
--- Configuring done (0.0s)
+-- Configuring done (0.9s)
 -- Generating done (0.0s)
--- Build files have been written to: /Users/sergio.prada/Projects/CppNDP-CapstoneProject/cmake-build-debug
+-- Build files have been written to: /Users/sergio.prada/Projects/Snakeeee/cmake-build-debug
