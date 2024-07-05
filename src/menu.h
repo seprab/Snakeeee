@@ -7,6 +7,7 @@
 
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 class Menu{
 
@@ -17,13 +18,20 @@ public:
         QUIT
     };
 
-    Menu();
+    explicit Menu(SDL_Renderer *renderer);
     ~Menu();
 
-    OPTIONS Show(SDL_Renderer *renderer);
+    OPTIONS Show();
 
 private:
-
+    TTF_Font *m_Font;
+    SDL_Surface *m_PlaySurface;
+    SDL_Surface *m_ScoreboardSurface;
+    SDL_Surface *m_ExitSurface;
+    SDL_Texture *m_PlayTexture;
+    SDL_Texture *m_ScoreboardTexture;
+    SDL_Texture *m_ExitTexture;
+    SDL_Renderer *m_Renderer;
 };
 
 

@@ -8,7 +8,7 @@ This project is still valid, and should build and run but just let me know if no
 
 This repo is simply a basic SDL2 setup and demo that finds and uses the latest brew installs of SDL2 libraries you'd most likely desire for a game. Please do fork and call it your own, or feel free to raise an issue, and include the CMake output.
 
-Don't expect too much :) All it does is demo initialising SDL2, loading a texture as a background, draw a rectangle that we can drag with the mouse, ttf with an external font, mixer and play ogg 'music' (some free walking sound I found), and changes the app icon in the Dock, and has a _game loop_ with fixed timing.
+Don't expect too much :) All it does is demo initialising SDL2, loading a texture as a background, draw a rectangle that we can drag with the mouse, ttf with an external m_Font, mixer and play ogg 'music' (some free walking sound I found), and changes the app icon in the Dock, and has a _game loop_ with fixed timing.
 
 The main reason I wrote this is because PKG_SEARCH_MODULE stopped working for me and I was fed up with broken apps, this looked a better cross platform(ish) solution, so this works as a nice starter project on new OS installs. 
 

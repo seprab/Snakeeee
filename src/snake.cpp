@@ -77,3 +77,9 @@ bool Snake::SnakeCell(int x, int y) {
   }
   return false;
 }
+
+void Snake::Kill()
+{
+    alive = false;
+    std::cout<<"Snake killed"<<std::endl;
+}

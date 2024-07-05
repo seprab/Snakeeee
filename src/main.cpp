@@ -4,44 +4,47 @@
 #include "renderer.h"
 #include "menu.h"
 
-int main() {
-  constexpr std::size_t kFramesPerSecond{60};
-  constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
-  constexpr std::size_t kScreenWidth{640};
-  constexpr std::size_t kScreenHeight{640};
-  constexpr std::size_t kGridWidth{32};
-  constexpr std::size_t kGridHeight{32};
+void Play(size_t gridWidth, size_t gridHeight, Renderer* renderer, size_t frameTime);
 
-  Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
-  Controller controller;
-  Game game(kGridWidth, kGridHeight);
-  game.Run(controller, renderer, kMsPerFrame);
-  std::cout << "Game has terminated successfully!\n";
-  std::cout << "Score: " << game.GetScore() << "\n";
-  std::cout << "Size: " << game.GetSize() << "\n";
-  return 0;
+int main()
+{
+    constexpr std::size_t kFramesPerSecond{60};
+    constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
+    constexpr std::size_t kScreenWidth{640};
+    constexpr std::size_t kScreenHeight{640};
+    constexpr std::size_t kGridWidth{32};
+    constexpr std::size_t kGridHeight{32};
 
-/*
-    SDL_Init(SDL_INIT_VIDEO);
-    SDL_Window *window = SDL_CreateWindow("Menu", 100, 100, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOW_SHOWN);
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    Menu menu;
-    Menu::OPTIONS option = menu.Show(renderer);
-    switch (option)
+    Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
+    Menu menu {renderer.GetRenderer()};
+    bool running = true;
+    while(running)
     {
-        case Menu::OPTIONS::PLAY:
-            std::cout << "Play option selected" << std::endl;
-            break;
-        case Menu::OPTIONS::SCOREBOARD:
-            std::cout << "Scoreboard option selected" << std::endl;
-            break;
-        case Menu::OPTIONS::QUIT:
-            std::cout << "Quit option selected" << std::endl;
-            break;
+        Menu::OPTIONS option = menu.Show();
+        switch (option)
+        {
+            case Menu::OPTIONS::PLAY:
+                std::cout << "Play option selected" << std::endl;
+                Play(kGridWidth, kGridHeight, &renderer, kMsPerFrame);
+                break;
+            case Menu::OPTIONS::SCOREBOARD:
+                std::cout << "Scoreboard option selected" << std::endl;
+                break;
+            case Menu::OPTIONS::QUIT:
+                std::cout << "Quit option selected" << std::endl;
+                running = false;
+                break;
+        }
     }
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
     return 0;
-    */
+}
+
+void Play(const size_t gridWidth, const size_t gridHeight, Renderer* renderer, const size_t frameTime)
+{
+    Controller controller;
+    Game game(gridWidth, gridHeight);
+    game.Run(controller, renderer, frameTime);
+    std::cout << "Game has terminated successfully!\n";
+    std::cout << "Score: " << game.GetScore() << "\n";
+    std::cout << "Size: " << game.GetSize() << "\n";
 }

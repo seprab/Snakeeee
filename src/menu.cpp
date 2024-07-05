@@ -7,59 +7,41 @@
 #include "menu.h"
 #include <iostream>
 
-Menu::OPTIONS Menu::Show(SDL_Renderer *renderer)
+Menu::OPTIONS Menu::Show()
 {
-    // Initialize SDL_ttf
-    if (TTF_Init() == -1) {
-        std::cerr << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << std::endl;
-        return OPTIONS::QUIT;
-    }
-
-    // Load the font
-    TTF_Font* font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 24);
-    if (font == nullptr) {
-        std::cerr << "Failed to load font! SDL_ttf Error: " << TTF_GetError() << std::endl;
-        return OPTIONS::QUIT;
-    }
-
-    // Define the color of the text
-    SDL_Color textColor = {255, 255, 255, 255};
-
-    // Create the surfaces
-    SDL_Surface* playSurface = TTF_RenderText_Solid(font, "Play", textColor);
-    SDL_Surface* scoreboardSurface = TTF_RenderText_Solid(font, "Scoreboard", textColor);
-    SDL_Surface* exitSurface = TTF_RenderText_Solid(font, "Exit", textColor);
-
-    // Create the textures
-    SDL_Texture* playTexture = SDL_CreateTextureFromSurface(renderer, playSurface);
-    SDL_Texture* scoreboardTexture = SDL_CreateTextureFromSurface(renderer, scoreboardSurface);
-    SDL_Texture* exitTexture = SDL_CreateTextureFromSurface(renderer, exitSurface);
-
+    std::cout << "Showing Menu" << std::endl;
     // Define the rectangles that will hold the positions of the menu options
-    SDL_Rect playRect = { 100, 100, playSurface->w, playSurface->h };
-    SDL_Rect scoreboardRect = { 100, 200, scoreboardSurface->w, scoreboardSurface->h };
-    SDL_Rect exitRect = { 100, 300, exitSurface->w, exitSurface->h };
+    SDL_Rect playRect = {100, 100, m_PlaySurface->w, m_PlaySurface->h };
+    SDL_Rect scoreboardRect = {100, 200, m_ScoreboardSurface->w, m_ScoreboardSurface->h };
+    SDL_Rect exitRect = {100, 300, m_ExitSurface->w, m_ExitSurface->h };
 
     SDL_Event event;
-    bool running = true;
 
-    while (running) {
+    while (true)
+    {
+        SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
         // Clear the screen
-        SDL_RenderClear(renderer);
+        int clearRenderer = SDL_RenderClear(m_Renderer);
+        if(clearRenderer != 0)
+        {
+            std::cerr << "Error clearing the renderer" << std::endl;
+            std::cerr <<SDL_GetError()<< std::endl;
+            return OPTIONS::QUIT;
+        }
 
         // Draw the menu options
-        SDL_RenderCopy(renderer, playTexture, NULL, &playRect);
-        SDL_RenderCopy(renderer, scoreboardTexture, NULL, &scoreboardRect);
-        SDL_RenderCopy(renderer, exitTexture, NULL, &exitRect);
+        SDL_RenderCopy(m_Renderer, m_PlayTexture, NULL, &playRect);
+        SDL_RenderCopy(m_Renderer, m_ScoreboardTexture, NULL, &scoreboardRect);
+        SDL_RenderCopy(m_Renderer, m_ExitTexture, NULL, &exitRect);
 
         // Show the changes on the screen
-        SDL_RenderPresent(renderer);
+        SDL_RenderPresent(m_Renderer);
 
         // Handle the user input
-        while (SDL_PollEvent(&event)) {
+        while (SDL_PollEvent(&event))
+        {
             if (event.type == SDL_QUIT)
             {
-                running = false;
                 return OPTIONS::QUIT;
             }
             else if (event.type == SDL_MOUSEBUTTONDOWN)
@@ -76,30 +58,54 @@ Menu::OPTIONS Menu::Show(SDL_Renderer *renderer)
                 {
                     return OPTIONS::SCOREBOARD;
                 }
-                else if (SDL_PointInRect(&point, &exitRect)) {
+                else if (SDL_PointInRect(&point, &exitRect))
+                {
                     return OPTIONS::QUIT;
                 }
             }
         }
     }
+}
 
-    // Clean up
-    SDL_DestroyTexture(playTexture);
-    SDL_DestroyTexture(scoreboardTexture);
-    SDL_DestroyTexture(exitTexture);
+Menu::Menu(SDL_Renderer *renderer) : m_Renderer(renderer)
+{
+    // Initialize SDL_ttf
+    if (TTF_Init() == -1)
+    {
+        std::cerr << "SDL_ttf could not initialize! SDL_ttf Error: " << TTF_GetError() << std::endl;
+    }
 
-    SDL_FreeSurface(playSurface);
-    SDL_FreeSurface(scoreboardSurface);
-    SDL_FreeSurface(exitSurface);
+    // Load the m_Font
+    m_Font = TTF_OpenFont("resources/OpenSans-Regular.ttf", 24);
+    if (m_Font == nullptr)
+    {
+        std::cerr << "Failed to load m_Font! SDL_ttf Error: " << TTF_GetError() << std::endl;
+    }
 
-    TTF_CloseFont(font);
+    // Define the color of the text
+    SDL_Color textColor = {255, 255, 255, 255};
+    // Create the surfaces
+    m_PlaySurface = TTF_RenderText_Solid(m_Font, "Play", textColor);
+    m_ScoreboardSurface = TTF_RenderText_Solid(m_Font, "Scoreboard", textColor);
+    m_ExitSurface = TTF_RenderText_Solid(m_Font, "Exit", textColor);
+
+    // Create the textures
+    m_PlayTexture = SDL_CreateTextureFromSurface(renderer, m_PlaySurface);
+    m_ScoreboardTexture = SDL_CreateTextureFromSurface(renderer, m_ScoreboardSurface);
+    m_ExitTexture = SDL_CreateTextureFromSurface(renderer, m_ExitSurface);
+}
+
+Menu::~Menu()
+{
+// Clean up
+    SDL_DestroyTexture(m_PlayTexture);
+    SDL_DestroyTexture(m_ScoreboardTexture);
+    SDL_DestroyTexture(m_ExitTexture);
+
+    SDL_FreeSurface(m_PlaySurface);
+    SDL_FreeSurface(m_ScoreboardSurface);
+    SDL_FreeSurface(m_ExitSurface);
+
+    TTF_CloseFont(m_Font);
     TTF_Quit();
-}
-
-Menu::Menu() {
-
-}
-
-Menu::~Menu() {
-
 }
