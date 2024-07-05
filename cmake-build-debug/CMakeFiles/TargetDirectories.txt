@@ -1,0 +1,3 @@
+/Users/sergio.prada/Projects/CppNDP-CapstoneProject/cmake-build-debug/CMakeFiles/SNAKEEEEE.dir
+/Users/sergio.prada/Projects/CppNDP-CapstoneProject/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/sergio.prada/Projects/CppNDP-CapstoneProject/cmake-build-debug/CMakeFiles/rebuild_cache.dir
