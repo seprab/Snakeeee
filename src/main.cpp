@@ -26,9 +26,9 @@ int main()
             case Menu::OPTIONS::PLAY:
                 std::cout << "Play option selected" << std::endl;
                 Play(kGridWidth, kGridHeight, &renderer, kMsPerFrame);
-                break;
             case Menu::OPTIONS::SCOREBOARD:
                 std::cout << "Scoreboard option selected" << std::endl;
+                menu.RenderScoreboard();
                 break;
             case Menu::OPTIONS::QUIT:
                 std::cout << "Quit option selected" << std::endl;

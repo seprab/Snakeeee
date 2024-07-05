@@ -8,6 +8,7 @@
 
 #include <SDL.h>
 #include <SDL_ttf.h>
+#include <vector>
 
 class Menu{
 
@@ -22,6 +23,7 @@ public:
     ~Menu();
 
     OPTIONS Show();
+    void RenderScoreboard();
 
 private:
     TTF_Font *m_Font;
@@ -32,6 +34,11 @@ private:
     SDL_Texture *m_ScoreboardTexture;
     SDL_Texture *m_ExitTexture;
     SDL_Renderer *m_Renderer;
+
+    SDL_Surface* m_ScoreboardScreenSurface;
+    SDL_Texture* m_ScoreboardScreenTexture;
+    std::vector<std::string> scores; // Assuming scores are stored as strings
+    void LoadScores();
 };
 
 

@@ -19,7 +19,7 @@ Menu::OPTIONS Menu::Show()
 
     while (true)
     {
-        SDL_SetRenderDrawColor(m_Renderer, 0x00, 0x00, 0x00, 0xFF);
+        SDL_SetRenderDrawColor(m_Renderer, 0x1E, 0x1E, 0x1E, 0xFF);
         // Clear the screen
         int clearRenderer = SDL_RenderClear(m_Renderer);
         if(clearRenderer != 0)
@@ -108,4 +108,58 @@ Menu::~Menu()
 
     TTF_CloseFont(m_Font);
     TTF_Quit();
+}
+
+void Menu::RenderScoreboard()
+{
+    LoadScores();
+    while (true)
+    {
+        SDL_SetRenderDrawColor(m_Renderer, 0x1E, 0x1E, 0x1E, 0xFF);
+        SDL_RenderClear(m_Renderer);
+    // Assuming a simple vertical list of scores
+    int yOffset = 100; // Starting Y position
+    for (const auto& score : scores)
+    {
+        SDL_Surface* tempSurface = TTF_RenderText_Solid(m_Font, score.c_str(), {255, 255, 255, 255}); // White text
+        SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(m_Renderer, tempSurface);
+        SDL_Rect scoreRect = {250, yOffset, tempSurface->w, tempSurface->h};
+        SDL_RenderCopy(m_Renderer, tempTexture, NULL, &scoreRect);
+
+        SDL_FreeSurface(tempSurface);
+        SDL_DestroyTexture(tempTexture);
+        yOffset += 50; // Move down for the next score
+    }
+
+    SDL_Rect exitRect = {100, 300, m_ExitSurface->w, m_ExitSurface->h };
+    SDL_Event event;
+    SDL_RenderCopy(m_Renderer, m_ExitTexture, NULL, &exitRect);
+    SDL_RenderPresent(m_Renderer);
+    while (SDL_PollEvent(&event))
+    {
+        if (event.type == SDL_QUIT)
+        {
+            return;
+        }
+        else if (event.type == SDL_MOUSEBUTTONDOWN)
+        {
+            int x, y;
+            SDL_GetMouseState(&x, &y);
+            SDL_Point point = {x, y};
+             if (SDL_PointInRect(&point, &exitRect))
+            {
+                return;
+            }
+        }
+    }
+    }
+}
+
+void Menu::LoadScores()
+{
+    scores.clear();
+    // Placeholder: Load scores from a file or initialize them
+    scores.push_back("Player1 - 100");
+    scores.push_back("Player2 - 90");
+    // etc.
 }
