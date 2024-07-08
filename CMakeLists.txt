@@ -26,7 +26,9 @@ set(SOURCE_FILES    src/main.cpp
         src/game.h src/game.cpp
         src/renderer.h src/renderer.cpp
         src/snake.h src/snake.cpp
-        src/renderer.cpp)
+        src/renderer.cpp
+        src/ScoreManager.h
+        src/ScoreManager.cpp)
 
 Message("")
 Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )

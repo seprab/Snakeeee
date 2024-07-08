@@ -11,9 +11,11 @@ Menu::OPTIONS Menu::Show()
 {
     std::cout << "Showing Menu" << std::endl;
     // Define the rectangles that will hold the positions of the menu options
-    SDL_Rect playRect = {100, 100, m_PlaySurface->w, m_PlaySurface->h };
-    SDL_Rect scoreboardRect = {100, 200, m_ScoreboardSurface->w, m_ScoreboardSurface->h };
-    SDL_Rect exitRect = {100, 300, m_ExitSurface->w, m_ExitSurface->h };
+    SDL_Rect titleRect = {100, 100, m_TitleSurface->w, m_TitleSurface->h };
+    SDL_Rect subtitleRect = {100, 125, m_SubtitleSurface->w, m_SubtitleSurface->h };
+    SDL_Rect playRect = {100, 200, m_PlaySurface->w, m_PlaySurface->h };
+    SDL_Rect scoreboardRect = {100, 300, m_ScoreboardSurface->w, m_ScoreboardSurface->h };
+    SDL_Rect exitRect = {100, 400, m_ExitSurface->w, m_ExitSurface->h };
 
     SDL_Event event;
 
@@ -30,9 +32,11 @@ Menu::OPTIONS Menu::Show()
         }
 
         // Draw the menu options
-        SDL_RenderCopy(m_Renderer, m_PlayTexture, NULL, &playRect);
-        SDL_RenderCopy(m_Renderer, m_ScoreboardTexture, NULL, &scoreboardRect);
-        SDL_RenderCopy(m_Renderer, m_ExitTexture, NULL, &exitRect);
+        SDL_RenderCopy(m_Renderer, m_TitleTexture, nullptr, &titleRect);
+        SDL_RenderCopy(m_Renderer, m_SubtitleTexture, nullptr, &subtitleRect);
+        SDL_RenderCopy(m_Renderer, m_PlayTexture, nullptr, &playRect);
+        SDL_RenderCopy(m_Renderer, m_ScoreboardTexture, nullptr, &scoreboardRect);
+        SDL_RenderCopy(m_Renderer, m_ExitTexture, nullptr, &exitRect);
 
         // Show the changes on the screen
         SDL_RenderPresent(m_Renderer);
@@ -85,11 +89,15 @@ Menu::Menu(SDL_Renderer *renderer) : m_Renderer(renderer)
     // Define the color of the text
     SDL_Color textColor = {255, 255, 255, 255};
     // Create the surfaces
-    m_PlaySurface = TTF_RenderText_Solid(m_Font, "Play", textColor);
-    m_ScoreboardSurface = TTF_RenderText_Solid(m_Font, "Scoreboard", textColor);
-    m_ExitSurface = TTF_RenderText_Solid(m_Font, "Exit", textColor);
+    m_TitleSurface = TTF_RenderText_Solid(m_Font, "Snakeeeee", textColor);
+    m_SubtitleSurface = TTF_RenderText_Solid(m_Font, "Click the options", textColor);
+    m_PlaySurface = TTF_RenderText_Solid(m_Font, "[] Play", textColor);
+    m_ScoreboardSurface = TTF_RenderText_Solid(m_Font, "[] Scoreboard", textColor);
+    m_ExitSurface = TTF_RenderText_Solid(m_Font, "[] Exit", textColor);
 
     // Create the textures
+    m_TitleTexture = SDL_CreateTextureFromSurface(renderer, m_TitleSurface);
+    m_SubtitleTexture = SDL_CreateTextureFromSurface(renderer, m_SubtitleSurface);
     m_PlayTexture = SDL_CreateTextureFromSurface(renderer, m_PlaySurface);
     m_ScoreboardTexture = SDL_CreateTextureFromSurface(renderer, m_ScoreboardSurface);
     m_ExitTexture = SDL_CreateTextureFromSurface(renderer, m_ExitSurface);
@@ -110,9 +118,9 @@ Menu::~Menu()
     TTF_Quit();
 }
 
-void Menu::RenderScoreboard()
+void Menu::RenderScoreboard(ScoreManager& scoreManager)
 {
-    LoadScores();
+    scores = scoreManager.GetTopFiveScores();
     while (true)
     {
         SDL_SetRenderDrawColor(m_Renderer, 0x1E, 0x1E, 0x1E, 0xFF);
@@ -124,7 +132,7 @@ void Menu::RenderScoreboard()
         SDL_Surface* tempSurface = TTF_RenderText_Solid(m_Font, score.c_str(), {255, 255, 255, 255}); // White text
         SDL_Texture* tempTexture = SDL_CreateTextureFromSurface(m_Renderer, tempSurface);
         SDL_Rect scoreRect = {250, yOffset, tempSurface->w, tempSurface->h};
-        SDL_RenderCopy(m_Renderer, tempTexture, NULL, &scoreRect);
+        SDL_RenderCopy(m_Renderer, tempTexture, nullptr, &scoreRect);
 
         SDL_FreeSurface(tempSurface);
         SDL_DestroyTexture(tempTexture);
@@ -133,7 +141,7 @@ void Menu::RenderScoreboard()
 
     SDL_Rect exitRect = {100, 300, m_ExitSurface->w, m_ExitSurface->h };
     SDL_Event event;
-    SDL_RenderCopy(m_Renderer, m_ExitTexture, NULL, &exitRect);
+    SDL_RenderCopy(m_Renderer, m_ExitTexture, nullptr, &exitRect);
     SDL_RenderPresent(m_Renderer);
     while (SDL_PollEvent(&event))
     {
@@ -155,18 +163,9 @@ void Menu::RenderScoreboard()
     }
 }
 
-void Menu::LoadScores()
-{
-    scores.clear();
-    // Placeholder: Load scores from a file or initialize them
-    scores.push_back("Player1 - 100");
-    scores.push_back("Player2 - 90");
-    // etc.
-}
-
 void Menu::RenderUsernameScreen(std::string& username)
 {
-    std::string inputText = "Enter Name: ";
+    std::string inputText = "Type name, press 'Enter': ";
     SDL_StartTextInput();
     SDL_Event e;
     bool enterPressed = false;
@@ -185,7 +184,7 @@ void Menu::RenderUsernameScreen(std::string& username)
                 {
                     enterPressed = true;
                 }
-                else if (e.key.keysym.sym == SDLK_BACKSPACE && inputText.length() > 11)
+                else if (e.key.keysym.sym == SDLK_BACKSPACE && inputText.length() > 26)
                 {
                     inputText.pop_back();
                 }
@@ -208,7 +207,7 @@ void Menu::RenderUsernameScreen(std::string& username)
         message_rect.w = surfaceMessage->w;
         message_rect.h = surfaceMessage->h;
 
-        SDL_RenderCopy(m_Renderer, message, NULL, &message_rect);
+        SDL_RenderCopy(m_Renderer, message, nullptr, &message_rect);
         SDL_RenderPresent(m_Renderer);
 
         SDL_FreeSurface(surfaceMessage);
@@ -216,5 +215,5 @@ void Menu::RenderUsernameScreen(std::string& username)
     }
 
     SDL_StopTextInput();
-    username = inputText.substr(11); // Remove the prompt part from the input text
+    username = inputText.substr(26); // Remove the prompt part from the input text
 }

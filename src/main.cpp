@@ -3,8 +3,9 @@
 #include "game.h"
 #include "renderer.h"
 #include "menu.h"
+#include "ScoreManager.h"
 
-void Play(size_t gridWidth, size_t gridHeight, Renderer* renderer, size_t frameTime);
+void Play(size_t gridWidth, size_t gridHeight, Renderer* renderer, size_t frameTime, const std::string& username, ScoreManager& scoreManager);
 
 int main()
 {
@@ -17,6 +18,8 @@ int main()
 
     Renderer renderer(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
     Menu menu {renderer.GetRenderer()};
+    ScoreManager scoreManager{};
+
     std::string username;
     menu.RenderUsernameScreen(username);
     bool running = true;
@@ -27,10 +30,10 @@ int main()
         {
             case Menu::OPTIONS::PLAY:
                 std::cout << "Play option selected" << std::endl;
-                Play(kGridWidth, kGridHeight, &renderer, kMsPerFrame);
+                Play(kGridWidth, kGridHeight, &renderer, kMsPerFrame, username, scoreManager);
             case Menu::OPTIONS::SCOREBOARD:
                 std::cout << "Scoreboard option selected" << std::endl;
-                menu.RenderScoreboard();
+                menu.RenderScoreboard(scoreManager);
                 break;
             case Menu::OPTIONS::QUIT:
                 std::cout << "Quit option selected" << std::endl;
@@ -41,11 +44,12 @@ int main()
     return 0;
 }
 
-void Play(const size_t gridWidth, const size_t gridHeight, Renderer* renderer, const size_t frameTime)
+void Play(const size_t gridWidth, const size_t gridHeight, Renderer* renderer, const size_t frameTime, const std::string& username, ScoreManager& scoreManager)
 {
     Controller controller;
     Game game(gridWidth, gridHeight);
     game.Run(controller, renderer, frameTime);
+    scoreManager.AddScore(username, game.GetScore());
     std::cout << "Game has terminated successfully!\n";
     std::cout << "Score: " << game.GetScore() << "\n";
     std::cout << "Size: " << game.GetSize() << "\n";
