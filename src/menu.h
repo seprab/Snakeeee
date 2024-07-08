@@ -23,8 +23,14 @@ public:
     explicit Menu(SDL_Renderer *renderer);
     ~Menu();
 
+    //rule of five
+    Menu(const Menu& other) = delete;
+    Menu(Menu&& other) = delete;
+    Menu& operator=(const Menu& other) = delete;
+    Menu& operator=(Menu&& other) = delete;
+
     OPTIONS Show();
-    void RenderScoreboard(ScoreManager& scoreManager);
+    void RenderScoreboard(const std::shared_ptr<ScoreManager>& scoreManager);
     void RenderUsernameScreen(std::string& username);
 
 private:
@@ -43,8 +49,6 @@ private:
     SDL_Texture *m_ExitTexture;
     SDL_Renderer *m_Renderer;
 
-    SDL_Surface* m_ScoreboardScreenSurface{};
-    SDL_Texture* m_ScoreboardScreenTexture{};
     std::vector<std::string> scores; // Assuming scores are stored as strings
 };
 

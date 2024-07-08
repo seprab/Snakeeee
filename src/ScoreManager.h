@@ -13,6 +13,13 @@ class ScoreManager
 public:
     ScoreManager();
     ~ScoreManager();
+
+    //rule of five
+    ScoreManager(const ScoreManager& other) = delete;
+    ScoreManager(ScoreManager&& other) = delete;
+    ScoreManager& operator=(const ScoreManager& other) = delete;
+    ScoreManager& operator=(ScoreManager&& other) = delete;
+
     void AddScore(const std::string& user, int score);
     std::vector<std::string> GetTopFiveScores();
 

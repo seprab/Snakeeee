@@ -106,10 +106,14 @@ Menu::Menu(SDL_Renderer *renderer) : m_Renderer(renderer)
 Menu::~Menu()
 {
 // Clean up
+    SDL_DestroyTexture(m_TitleTexture);
+    SDL_DestroyTexture(m_SubtitleTexture);
     SDL_DestroyTexture(m_PlayTexture);
     SDL_DestroyTexture(m_ScoreboardTexture);
     SDL_DestroyTexture(m_ExitTexture);
 
+    SDL_FreeSurface(m_TitleSurface);
+    SDL_FreeSurface(m_SubtitleSurface);
     SDL_FreeSurface(m_PlaySurface);
     SDL_FreeSurface(m_ScoreboardSurface);
     SDL_FreeSurface(m_ExitSurface);
@@ -118,9 +122,9 @@ Menu::~Menu()
     TTF_Quit();
 }
 
-void Menu::RenderScoreboard(ScoreManager& scoreManager)
+void Menu::RenderScoreboard(const std::shared_ptr<ScoreManager>&  scoreManager)
 {
-    scores = scoreManager.GetTopFiveScores();
+    scores = scoreManager->GetTopFiveScores();
     while (true)
     {
         SDL_SetRenderDrawColor(m_Renderer, 0x1E, 0x1E, 0x1E, 0xFF);

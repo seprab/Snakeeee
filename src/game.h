@@ -10,7 +10,7 @@
 class Game {
  public:
   Game(std::size_t grid_width, std::size_t grid_height);
-  void Run(Controller const &controller, Renderer* renderer,
+  void Run(Controller const &controller, const std::shared_ptr<Renderer>& renderer,
            std::size_t target_frame_duration);
   int GetScore() const;
   int GetSize() const;
