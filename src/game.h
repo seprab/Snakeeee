@@ -6,6 +6,7 @@
 #include "controller.h"
 #include "renderer.h"
 #include "snake.h"
+#include "Obstacle.h"
 
 class Game {
  public:
@@ -25,6 +26,10 @@ class Game {
   std::uniform_int_distribution<int> random_h;
 
   int score{0};
+
+  std::vector<Obstacle> obstacles;
+  void PlaceObstacles();
+  bool CheckObstacleCollision() const;
 
   void PlaceFood();
   bool Update();

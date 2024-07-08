@@ -41,7 +41,7 @@ Renderer::~Renderer()
     SDL_Quit();
 }
 
-void Renderer::RenderGame(Snake const snake, SDL_Point const &food)
+void Renderer::RenderGame(Snake const snake, SDL_Point const &food, std::vector<Obstacle> const &obstacles)
 {
   SDL_Rect block;
   block.w = screen_width / grid_width;
@@ -52,7 +52,7 @@ void Renderer::RenderGame(Snake const snake, SDL_Point const &food)
   SDL_RenderClear(sdl_renderer);
 
   // RenderGame food
-  SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xCC, 0x00, 0xFF);
+  SDL_SetRenderDrawColor(sdl_renderer, 0x00, 0xFF, 0x00, 0xFF);
   block.x = food.x * block.w;
   block.y = food.y * block.h;
   SDL_RenderFillRect(sdl_renderer, &block);
@@ -78,6 +78,14 @@ void Renderer::RenderGame(Snake const snake, SDL_Point const &food)
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
   }
   SDL_RenderFillRect(sdl_renderer, &block);
+
+    SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0x00, 0x00, 0xFF);
+    for(const auto &obstacle: obstacles)
+    {
+        block.x = obstacle.GetX()* block.w,
+        block.y = obstacle.GetY()* block.h,
+        SDL_RenderFillRect(sdl_renderer, &block);
+    }
 
   // Update Screen
   SDL_RenderPresent(sdl_renderer);

@@ -6,8 +6,10 @@ Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1)) {
+      random_h(0, static_cast<int>(grid_height - 1))
+      {
   PlaceFood();
+  PlaceObstacles();
 }
 
 void Game::Run(Controller const &controller, const std::shared_ptr<Renderer>& renderer,
@@ -26,7 +28,7 @@ void Game::Run(Controller const &controller, const std::shared_ptr<Renderer>& re
     // Input, Update, RenderGame - the main game loop.
     controller.HandleInput(running, snake);
     if (!Update()) break;
-      renderer->RenderGame(snake, food);
+      renderer->RenderGame(snake, food, obstacles);
 
     frame_end = SDL_GetTicks();
 
@@ -90,8 +92,36 @@ bool Game::Update()
     snake.GrowBody();
     snake.speed += 0.02;
   }
+  if(CheckObstacleCollision())
+  {
+      snake.Kill();
+      return false;
+  }
   return true;
 }
 
 int Game::GetScore() const { return score; }
 int Game::GetSize() const { return snake.size; }
+
+void Game::PlaceObstacles()
+{
+    for(int i=0; i<5; i++)
+    {
+        int x = random_w(engine);
+        int y = random_h(engine);
+        obstacles.emplace_back(x, y);
+    }
+}
+/// Check if the snake has hit an obstacle.
+/// \return true if the snake hit an obstacle, false otherwise.
+bool Game::CheckObstacleCollision() const
+{
+    for(const Obstacle& obstacle : obstacles)
+    {
+        if(static_cast<int>(snake.head_x) == obstacle.GetX() && static_cast<int>(snake.head_y) == obstacle.GetY())
+        {
+            return true;
+        }
+    }
+    return false;
+}

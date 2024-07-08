@@ -98,6 +98,13 @@ build CMakeFiles/SNAKEEEEE.dir/src/ScoreManager.cpp.o: CXX_COMPILER__SNAKEEEEE_u
   OBJECT_DIR = CMakeFiles/SNAKEEEEE.dir
   OBJECT_FILE_DIR = CMakeFiles/SNAKEEEEE.dir/src
 
+build CMakeFiles/SNAKEEEEE.dir/src/Obstacle.cpp.o: CXX_COMPILER__SNAKEEEEE_unscanned_Debug /Users/sergio.prada/Projects/Snakeeee/src/Obstacle.cpp || cmake_object_order_depends_target_SNAKEEEEE
+  DEP_FILE = CMakeFiles/SNAKEEEEE.dir/src/Obstacle.cpp.o.d
+  FLAGS = -g -std=gnu++17 -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk -fcolor-diagnostics   -std=c++17
+  INCLUDES = -I/opt/homebrew/include/SDL2
+  OBJECT_DIR = CMakeFiles/SNAKEEEEE.dir
+  OBJECT_FILE_DIR = CMakeFiles/SNAKEEEEE.dir/src
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target SNAKEEEEE
@@ -106,7 +113,7 @@ build CMakeFiles/SNAKEEEEE.dir/src/ScoreManager.cpp.o: CXX_COMPILER__SNAKEEEEE_u
 #############################################
 # Link the executable bin/SNAKEEEEE
 
-build bin/SNAKEEEEE: CXX_EXECUTABLE_LINKER__SNAKEEEEE_Debug CMakeFiles/SNAKEEEEE.dir/src/main.cpp.o CMakeFiles/SNAKEEEEE.dir/src/menu.cpp.o CMakeFiles/SNAKEEEEE.dir/src/controller.cpp.o CMakeFiles/SNAKEEEEE.dir/src/game.cpp.o CMakeFiles/SNAKEEEEE.dir/src/renderer.cpp.o CMakeFiles/SNAKEEEEE.dir/src/snake.cpp.o CMakeFiles/SNAKEEEEE.dir/src/ScoreManager.cpp.o | /opt/homebrew/lib/libSDL2main.a /opt/homebrew/lib/libSDL2.dylib /opt/homebrew/lib/libSDL2_ttf.dylib /opt/homebrew/lib/libSDL2_ttf.dylib /opt/homebrew/lib/libSDL2_image.dylib /opt/homebrew/lib/libSDL2_mixer.dylib
+build bin/SNAKEEEEE: CXX_EXECUTABLE_LINKER__SNAKEEEEE_Debug CMakeFiles/SNAKEEEEE.dir/src/main.cpp.o CMakeFiles/SNAKEEEEE.dir/src/menu.cpp.o CMakeFiles/SNAKEEEEE.dir/src/controller.cpp.o CMakeFiles/SNAKEEEEE.dir/src/game.cpp.o CMakeFiles/SNAKEEEEE.dir/src/renderer.cpp.o CMakeFiles/SNAKEEEEE.dir/src/snake.cpp.o CMakeFiles/SNAKEEEEE.dir/src/ScoreManager.cpp.o CMakeFiles/SNAKEEEEE.dir/src/Obstacle.cpp.o | /opt/homebrew/lib/libSDL2main.a /opt/homebrew/lib/libSDL2.dylib /opt/homebrew/lib/libSDL2_ttf.dylib /opt/homebrew/lib/libSDL2_ttf.dylib /opt/homebrew/lib/libSDL2_image.dylib /opt/homebrew/lib/libSDL2_mixer.dylib
   FLAGS = -g -arch arm64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX14.5.sdk
   LINK_LIBRARIES = /opt/homebrew/lib/libSDL2main.a  /opt/homebrew/lib/libSDL2.dylib  -framework Cocoa  /opt/homebrew/lib/libSDL2_ttf.dylib  /opt/homebrew/lib/libSDL2_ttf.dylib  -framework Cocoa  /opt/homebrew/lib/libSDL2_image.dylib  /opt/homebrew/lib/libSDL2_mixer.dylib
   OBJECT_DIR = CMakeFiles/SNAKEEEEE.dir

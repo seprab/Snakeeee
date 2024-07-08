@@ -8,7 +8,7 @@
 -- CMAKE_PROJECT_NAME: SNAKEEEEE
 -- CMAKE_FINDCMAKE: /Users/sergio.prada/Projects/Snakeeee/CMAKE
 
--- SOURCE entry point : src/main.cppsrc/menu.hsrc/menu.cppsrc/controller.hsrc/controller.cppsrc/game.hsrc/game.cppsrc/renderer.hsrc/renderer.cppsrc/snake.hsrc/snake.cppsrc/renderer.cppsrc/ScoreManager.hsrc/ScoreManager.cpp
+-- SOURCE entry point : src/main.cppsrc/menu.hsrc/menu.cppsrc/controller.hsrc/controller.cppsrc/game.hsrc/game.cppsrc/renderer.hsrc/renderer.cppsrc/snake.hsrc/snake.cppsrc/renderer.cppsrc/ScoreManager.hsrc/ScoreManager.cppsrc/Obstacle.hsrc/Obstacle.cpp
 
 
 -- FINDING SDL2
