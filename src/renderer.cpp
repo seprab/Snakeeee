@@ -91,7 +91,3 @@ void Renderer::UpdateWindowTitle(int score, int fps) {
 SDL_Renderer *Renderer::GetRenderer() {
     return sdl_renderer;
 }
-
-SDL_Window *Renderer::GetWindow() {
-    return sdl_window;
-}

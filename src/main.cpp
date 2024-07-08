@@ -47,10 +47,12 @@ int main()
 void Play(const size_t gridWidth, const size_t gridHeight, const std::shared_ptr<Renderer>& renderer, const size_t frameTime, const std::string& username, std::shared_ptr<ScoreManager>& scoreManager)
 {
     Controller controller;
-    Game game(gridWidth, gridHeight);
-    game.Run(controller, renderer, frameTime);
-    scoreManager->AddScore(username, game.GetScore());
+    std::unique_ptr<Game> game = std::make_unique<Game>(gridWidth, gridHeight);
+    game->Run(controller, renderer, frameTime);
+    scoreManager->AddScore(username, game->GetScore());
+    /*
     std::cout << "Game has terminated successfully!\n";
-    std::cout << "Score: " << game.GetScore() << "\n";
-    std::cout << "Size: " << game.GetSize() << "\n";
+    std::cout << "Score: " << game->GetScore() << "\n";
+    std::cout << "Size: " << game->GetSize() << "\n";
+    */
 }
