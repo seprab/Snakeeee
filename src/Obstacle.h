@@ -11,14 +11,19 @@
 class Obstacle
         {
 public:
-    Obstacle(int x, int y);
+    Obstacle(int x, int y, int _moveX, int _moveY);
     ~Obstacle();
 
     SDL_Point position;
+    bool moveX = false;
+    bool moveY = false;
+    int deltaX = 0;
+    int deltaY = 0;
 
     [[nodiscard]] int GetX() const;
     [[nodiscard]] int GetY() const;
-
+    void MoveX();
+    void MoveY();
 };
 
 

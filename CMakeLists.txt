@@ -30,7 +30,8 @@ set(SOURCE_FILES    src/main.cpp
         src/ScoreManager.h
         src/ScoreManager.cpp
         src/Obstacle.h
-        src/Obstacle.cpp)
+        src/Obstacle.cpp
+        src/config.h)
 
 Message("")
 Message( STATUS "SOURCE entry point : " ${SOURCE_FILES} )

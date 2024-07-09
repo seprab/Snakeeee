@@ -4,17 +4,13 @@
 #include "renderer.h"
 #include "menu.h"
 #include "ScoreManager.h"
+#include "config.h"
 
 void Play(size_t gridWidth, size_t gridHeight, const std::shared_ptr<Renderer>& renderer, size_t frameTime, const std::string& username, std::shared_ptr<ScoreManager>& scoreManager);
 
 int main()
 {
-    constexpr std::size_t kFramesPerSecond{60};
-    constexpr std::size_t kMsPerFrame{1000 / kFramesPerSecond};
-    constexpr std::size_t kScreenWidth{640};
-    constexpr std::size_t kScreenHeight{640};
-    constexpr std::size_t kGridWidth{32};
-    constexpr std::size_t kGridHeight{32};
+
 
     std::shared_ptr<Renderer> renderer = std::make_shared<Renderer>(kScreenWidth, kScreenHeight, kGridWidth, kGridHeight);
     std::unique_ptr<Menu> menu = std::make_unique<Menu>(renderer->GetRenderer());

@@ -1,17 +1,31 @@
-#include "game.h"
 #include <iostream>
+#include <thread>
 #include "SDL.h"
+#include "game.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
     : snake(grid_width, grid_height),
       engine(dev()),
       random_w(0, static_cast<int>(grid_width - 1)),
-      random_h(0, static_cast<int>(grid_height - 1))
+      random_h(0, static_cast<int>(grid_height - 1)),
+      random_move(0, 10)
       {
-  PlaceFood();
-  PlaceObstacles();
-}
+        PlaceFood();
+        obstacle_thread = std::thread(&Game::PlaceObstacles, this);
+        moveObstaclesThread = std::thread(&Game::MoveObstaclesAsync, this);
+      }
 
+Game::~Game()
+{
+    if(obstacle_thread.joinable())
+    {
+        obstacle_thread.join();
+    }
+    if(moveObstaclesThread.joinable())
+    {
+        moveObstaclesThread.join();
+    }
+}
 void Game::Run(Controller const &controller, const std::shared_ptr<Renderer>& renderer,
                std::size_t target_frame_duration) {
   Uint32 title_timestamp = SDL_GetTicks();
@@ -105,11 +119,21 @@ int Game::GetSize() const { return snake.size; }
 
 void Game::PlaceObstacles()
 {
-    for(int i=0; i<5; i++)
+    float counter = 0;
+    while(snake.alive)
     {
-        int x = random_w(engine);
-        int y = random_h(engine);
-        obstacles.emplace_back(x, y);
+        if (counter > 7000)
+        {
+            int x = random_w(engine);
+            int y = random_h(engine);
+            int moveX = random_move(engine);
+            int moveY = random_move(engine);
+            std::lock_guard<std::mutex> guard(obstacle_mutex);
+            obstacles.emplace_back(x, y, moveX, moveY);
+            counter = 0;
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds (1));
+        counter++;
     }
 }
 /// Check if the snake has hit an obstacle.
@@ -124,4 +148,16 @@ bool Game::CheckObstacleCollision() const
         }
     }
     return false;
+}
+
+void Game::MoveObstaclesAsync() {
+    while (snake.alive) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::lock_guard<std::mutex> guard(obstacle_mutex);
+        for (Obstacle& obstacle : obstacles)
+        {
+            obstacle.MoveX();
+            obstacle.MoveY();
+        }
+    }
 }
